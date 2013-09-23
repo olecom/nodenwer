@@ -2,6 +2,13 @@
 # v000 2012-03-26 mongodb+.sh # v001 2012-03-27 Masterpiece
 # v003 2012-04-10 `_start` to run multiple clients under w32 
 #      "mongo": start mongo shell for all db chuncks (uses `_start`)
+# v004 2012-05-30 `linux-gnu` final adoption
+# v005 2012-06-12 removed `trap '' CHLD`, dash hungs in wait4() with it
+#      empty $OSTYPE under non `bash` (`dash` in debian) is handled as "linux-gnu"
+# v006 2012-06-20 removed bashizm: "${db_path=${db_chunk#*/}}"
+# v007 2012-07-05 added --journal, added $MONGO_DBNAME
+# v008 2012-08-14 fix: `source` ./path.conf
+
 set -e
 
 [ "$*" ] || { echo "
@@ -21,8 +28,6 @@ trap "" 0
 exit 0
 ' 0
 
-trap '' CHLD
-
 _err() {
 printf '[error] '"$@" >&2
 }
@@ -38,14 +43,15 @@ exit "$1"
 }
 
 case "$OSTYPE" in
-*cygwin*) # OSTYPE=cygwin
+*cygwin*) # OSTYPE=cygwin in `bash`
 	LD_LIBRARY_PATH='/bin:/bin.w32'
 	PATH="/bin:/bin.w32:$PATH"
 	_start(){
 	cmd /C start "$@"
 	}
 ;;
-*linux_gnu*) # OSTYPE=linux-gnu ???
+*linux_gnu* | *)
+	OSTYPE=linux-gnu
 	LD_LIBRARY_PATH="/usr/local/bin:$LD_LIBRARY_PATH"
 	case "$PATH" in
 	  *"/usr/local/bin"*) ;;
@@ -57,12 +63,13 @@ case "$OSTYPE" in
 ;;
 esac
 # including config here; make \r\n -> \n trasformation
-sed '' "$1" >"$1".lf
-. "${1}.lf" && rm -f "${1}.lf"
+sed 's/\r//g' "$1" >"$1".cr
+/bin/sh -c ". ./${1}.cr"
+. "./${1}.cr"
+rm -f "${1}.cr"
 shift 1
 #
 export PATH LD_LIBRARY_PATH
-export -n JSAPPSTART
 
 _date() { # ISO date
 date -u '+%Y-%m-%dT%H:%M:%SZ'
@@ -158,9 +165,11 @@ _mongo 'sts_running' 7>/dev/null 8>&7 && _exit 1 || _con "mongodb for '${db_chun
 	'stat')
 _mongo 'cmd_stat' && _con "
 runnig status of mongodb '${db_chunk}': OK
-" || _con "
+
+" 7>&1 || _con "
 deep shit happend
-"
+
+" 7>&1
 ;;
 	'start')
 	_con "mongodb for '${db_chunk}'"' already started and is running
@@ -170,7 +179,7 @@ deep shit happend
 	'mongo')
 	_con "starting mongodb shell for '$db_chunk'"'
 '
-	_start mongo "${db_chunk%%/*}"
+	_start mongo "${db_chunk%%/*}$MONGO_DBNAME"
 
 	_exit $?
 ;;
@@ -178,17 +187,22 @@ deep shit happend
 else # == start ==
 	case "$1" in
 	'start')
-	{ [ -d "${db_path=${db_chunk#*/}}" ] || {
+	db_path=${db_chunk#*/}
+	{ [ -d "${db_path}" ] || {
 	   _con "creating '$db_path': "
 	   mkdir -p "$db_path" && _con "OK 
 "   ; }
     } && {
-     _con "@[`_date`] `$MONGOD --version | sed '1!d'` is starting...
+     _con "@[`_date`] mongo`$MONGOD --version | sed '1!d'` is starting...
 "
+# journal: 32 bit nuances?
+# There is extra memory mapped file activity with journaling. This will
+# further constrain the limited db size of 32 bit builds. Thus, for now
+# journaling by default is disabled on 32 bit systems.
 $MONGOD  --repair --upgrade --dbpath "$db_path" 0</dev/null 1>&8 2>&8 7>&- 8>&-
-$MONGOD  --bind_ip "${DBADDR%%:*}" --port "${DBADDR##*:}" \
-	     --dbpath "$db_path" 0</dev/null 1>&8 2>&8 7>&- 8>&- &
-	 _con "'${db_chunk}' running status: "
+$MONGOD  --bind_ip "${DBADDR%%:*}" --port "${DBADDR##*:}" --journal \
+	 --dbpath "$db_path" 0</dev/null 1>&8 2>&8 7>&- 8>&- &
+	 _con "'${db_chunk}$MONGO_DBNAME' running status: "
 	 _mongo 'sts_running' 7>/dev/null 8>&7 && _con "OK
 " ; } || {
 _err "Error
