@@ -1,0 +1,33 @@
+"nodwnwer\bin"| Cygwin files:
+====================================================
+---------- 1 olecom mkgroup  164878 2011-10-28 06:00 cp.exe
+---------- 1 olecom mkgroup 1174542 2011-03-16 23:09 cygcrypto-0.9.8.dll
+---------- 1 olecom mkgroup   80910 2011-11-11 17:26 cyggcc_s-1.dll
+---------- 1 olecom mkgroup 1008654 2011-11-11 17:26 cygiconv-2.dll
+---------- 1 olecom mkgroup   35342 2011-11-11 17:26 cygintl-8.dll
+---------- 1 olecom mkgroup  249870 2010-01-02 22:35 cygncursesw-10.dll
+---------- 1 olecom mkgroup  263182 2011-11-11 17:26 cygpcre-0.dll
+---------- 1 olecom mkgroup  167438 2011-11-11 17:26 cygreadline7.dll
+---------- 1 olecom mkgroup  268814 2011-03-16 23:09 cygssl-0.9.8.dll
+---------- 1 olecom mkgroup    8206 2011-10-26 06:26 cygssp-0.dll
+---------- 1 olecom mkgroup  798734 2011-10-26 06:26 cygstdc++-6.dll
+---------- 1 olecom mkgroup 2666500 2011-11-11 17:26 cygwin1.dll
+---------- 1 olecom mkgroup   77838 2010-08-01 23:04 cygz.dll
+---------- 1 olecom mkgroup   77838 2011-11-11 17:26 date.exe
+---------- 1 olecom mkgroup   72206 2011-10-28 06:00 dd.exe
+---------- 1 olecom mkgroup  121358 2011-10-28 06:00 du.exe
+---------- 1 olecom mkgroup  209422 2010-12-03 23:47 find.exe
+---------- 1 olecom mkgroup  341006 2011-11-11 17:26 gawk.exe
+---------- 1 olecom mkgroup  156174 2011-11-11 17:26 grep.exe
+---------- 1 olecom mkgroup   24078 2011-11-11 17:26 iconv.exe
+---------- 1 olecom mkgroup  799758 2011-10-21 22:58 lftp.exe
+---------- 1 olecom mkgroup  129536 2008-12-18 00:16 ls.exe
+---------- 1 olecom mkgroup   51726 2011-10-28 06:00 mkdir.exe
+---------- 1 olecom mkgroup  157198 2011-10-28 06:00 mv.exe
+---------- 1 olecom mkgroup   14350 2009-12-07 12:51 ps.exe
+---------- 1 olecom mkgroup  128000 2008-12-18 00:16 rm.exe
+---------- 1 olecom mkgroup  113678 2011-11-11 17:26 sed.exe
+---------- 1 olecom mkgroup  536078 2011-11-11 17:26 sh.exe
+---------- 1 olecom mkgroup   46606 2011-11-11 17:26 sleep.exe
+---------- 1 olecom mkgroup  367630 2011-10-07 17:12 ssh.exe
+---------- 1 olecom mkgroup   68096 2008-12-18 00:16 tail.exe

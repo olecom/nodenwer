@@ -1,0 +1,8 @@
+"nodwnwer\bin.w32"| Tools' executable files build for MS Windows(R) 32bit:
+==========================================================================
+-rwxr-xr-x    1 olecom   mkgroup   293888 Mar 15  2008 Terminal.exe
+-rwxr-xr-x    1 olecom   mkgroup  1884160 Mar 19  2012 mongo.exe
+-rwxr-xr-x    1 olecom   mkgroup  4297216 Mar 19  2012 mongod.exe
+-rwxr-xr-x    1 olecom   mkgroup  4579176 Mar 30  2012 node.exe
+-rwxr-xr-x    1 olecom   mkgroup   282624 Jun 28  2011 plink.exe
+-rwxr-xr-x    1 olecom   mkgroup   454656 Sep 27  2010 putty.exe
